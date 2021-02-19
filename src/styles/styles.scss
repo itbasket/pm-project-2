@@ -1,5 +1,184 @@
-$body-color: grey;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@300;400&display=swap');
+
+@import '_variables';
+@import '_mixins';
 
 body {
-    background-color: $body-color;
+  background-color: $company-light-yellow;
+  font-family: $main-font;
+  font-weight: 300;
+  padding: 1em;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+a {
+  @include link;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: $heading-font;
+  color: $company-dark-gray;
+}
+
+.hidden {
+  display: none;
+}
+
+.selected {
+  opacity: 0.4;
+}
+
+.boards,
+.menu,
+.top-menu {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.top-menu {
+  list-style-type: none;
+  justify-content: flex-end;
+  margin-top: 0;
+
+  & button {
+    @include link;
+    color: $company-dark-gray;
+  }
+}
+
+.menu {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  & button {
+    @include button;
+  }
+}
+
+.board {
+  border: 1px dotted $company-light-gray;
+  padding: 1em;
+  position: relative;
+  flex: 1 0 1px;
+  height: 100%;
+  border-radius: $border-radius;
+
+  & > h2 {
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  & > h2:after {
+    content: '⭘';
+    margin-left: 0.5em;
+    top: 1em;
+    right: 1em;
+    border-radius: 50%;
+  }
+
+  &.to_do > h2:after {
+    color: $company-blue;
+  }
+
+  &.in_progress > h2:after {
+    color: $company-purple;
+  }
+
+  &.testing > h2:after {
+    color: $company-yellow;
+  }
+
+  &.done > h2:after {
+    color: $company-green;
+  }
+
+  &__stats {
+    margin: 0 20px 1em;
+  }
+
+  &__add {
+    @include link;
+    margin: 1em;
+  }
+}
+
+.card {
+  min-width: 200px;
+  padding: 1em;
+  margin-bottom: 1em;
+  position: relative;
+  background-color: $company-white;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+  color: $company-light-gray;
+  cursor: move;
+
+  &__options {
+    @include options;
+  }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 0.8em;
+    font-weight: 400;
+    color: $company-light-gray;
+
+    & p {
+      margin: 0;
+    }
+
+    & span {
+      color: $company-dark-gray;
+    }
+  }
+}
+
+.popup {
+  @include popup;
+
+  & input,
+  & select,
+  & textarea {
+    @include input;
+  }
+
+  & button {
+    @include button;
+  }
+}
+
+.actions {
+  position: absolute;
+  list-style: none;
+  z-index: 5;
+  width: 100px;
+  padding-left: 0;
+  box-sizing: border-box;
+  border: 1px dotted $company-dark-gray;
+  border-radius: $border-radius;
+  background-color: $company-white;
+  box-shadow: $shadow;
+
+  & li {
+    padding: 5px 0;
+    &:not(:last-of-type) {
+      border-bottom: 1px dotted $company-dark-gray;
+    }
+  }
+
+  & button {
+    @include link;
+    color: $company-dark-gray;
+    width: 100%;
+    text-align: left;
+  }
 }

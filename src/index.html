@@ -1,10 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PM Project 2</title>
-</head>
-<body>
+  </head>
+  <body>
+    <ul class="top-menu">
+      <li><button class="top-menu__register">Register</button></li>
+      <li><button class="top-menu__login">Login</button></li>
+      <li><button class="top-menu__login hidden">Log out</button></li>
+    </ul>
 
-</body>
+    <div class="menu">
+      <h1>Kanban board</h1>
+      <button class="add-card">Add new card</button>
+    </div>
+
+    <div class="boards">
+      <section class="board to_do">
+        <h2>To Do</h2>
+        <p class="board__stats">total: <span class="board__stats--total-cards">6</span></p>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <article draggable="true" class="card selected">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea eum molestias illum at
+          </p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <button class="board__add" href="#">Add card</button>
+      </section>
+
+      <section class="board in_progress">
+        <h2>In Progress</h2>
+        <p class="board__stats">total: <span class="board__stats--total-cards">1</span></p>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea eum molestias illum at
+            exercitationem, cumque aliquam deleniti vitae ex nisi, perferendis sed, neque error
+            voluptatem maxime? Adipisci facilis nostrum architecto?
+          </p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <button class="board__add" href="#">Add card</button>
+      </section>
+
+      <section class="board testing">
+        <h2>Testing</h2>
+        <p class="board__stats">total: <span class="board__stats--total-cards">2</span></p>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">Lorem ipsum dolor sit</p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Lorem ipsum</h3>
+          <p class="card__description">Lorem ipsum dolor sit amet consectetur,</p>
+          <div class="card__stats">
+            <p>Created: <span class="card__date--created">2021-02-17</span></p>
+            <p>Updated: <span class="card__date--created">2021-02-17</span></p>
+          </div>
+          <div class="card__options"></div>
+        </article>
+
+        <button class="board__add" href="#">Add card</button>
+      </section>
+
+      <section class="board done">
+        <h2>Done</h2>
+        <p class="board__stats">total: <span class="board__stats--total-cards">0</span></p>
+
+        <button class="board__add" href="#">Add card</button>
+      </section>
+    </div>
+
+    <!-- Popup for auth -->
+    <form class="popup auth hidden">
+      <label for="login">Enter login</label>
+      <input required id="login" type="text" />
+
+      <label for="password">Enter password</label>
+      <input required id="password" type="password" />
+
+      <label for="email">Enter email</label>
+      <input id="email" type="email" />
+
+      <button class="button-register">Register</button>
+      <button class="button-login">Login</button>
+    </form>
+
+    <!-- Popup for adding card -->
+    <form class="popup add hidden">
+      <label for="card-title">Enter card title</label>
+      <input id="card-title" type="text" />
+
+      <label for="card-description">Enter card text</label>
+      <textarea id="card-description"></textarea>
+
+      <label for="card-category">Select card category</label>
+      <select id="card-category">
+        <option value="1">To Do</option>
+        <option value="2">In Progress</option>
+        <option value="3">Testing</option>
+        <option value="4">Done</option>
+      </select>
+
+      <button class="button-add">Sumbit</button>
+    </form>
+
+    <!-- Popup for manipulating card -->
+    <ul class="actions hidden">
+      <li><button class="options__edit">Edit</button></li>
+      <li><button class="options__delete">Delete</button></li>
+    </ul>
+  </body>
 </html>

@@ -1,0 +1,78 @@
+@mixin link {
+  color: $company-green;
+  font-size: inherit;
+  font-family: $main-font;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  text-decoration: underline;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    transform: translateY(2px);
+  }
+}
+
+@mixin button {
+  padding: 10px 20px;
+  background-color: $company-green;
+  color: $company-white;
+  border: 0;
+  border-radius: $border-radius;
+  outline: 0;
+  font-family: $heading-font;
+  font-weight: 600;
+  line-height: 14px;
+  transition: background-color 0.3s;
+  box-shadow: $shadow;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $company-orange;
+  }
+}
+
+@mixin options {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 1em;
+  height: 1em;
+  background-image: radial-gradient(circle, $company-light-gray 20%, transparent 22%);
+  background-size: 100% 33.33%;
+  cursor: pointer;
+
+  &:hover {
+    background-image: radial-gradient(circle, $company-dark-gray 20%, transparent 22%);
+  }
+}
+
+@mixin popup {
+  position: fixed;
+  top: 50vh;
+  left: 50%;
+  width: 100%;
+  max-width: 300px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  padding: 1em;
+  box-sizing: border-box;
+  border: 1px dotted $company-dark-gray;
+  border-radius: $border-radius;
+  background-color: $company-white;
+  box-shadow: $shadow, 0px 0px 0 9999px rgba(176, 176, 176, 0.8);
+}
+
+@mixin input {
+  padding: 0.5em;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-weight: inherit;
+  width: 100%;
+  margin-bottom: 1em;
+}
