@@ -8,9 +8,7 @@
   </head>
   <body>
     <ul class="top-menu">
-      <li><button class="top-menu__register">Register</button></li>
-      <li><button class="top-menu__login">Login</button></li>
-      <li><button class="top-menu__login hidden">Log out</button></li>
+      <li><button class="top-menu__logout">Logout</button></li>
     </ul>
 
     <div class="menu">
@@ -85,7 +83,7 @@
           <div class="card__options"></div>
         </article>
 
-        <button class="board__add" href="#">Add card</button>
+        <button class="board__add">Add card</button>
       </section>
 
       <section class="board in_progress">
@@ -106,7 +104,7 @@
           <div class="card__options"></div>
         </article>
 
-        <button class="board__add" href="#">Add card</button>
+        <button class="board__add">Add card</button>
       </section>
 
       <section class="board testing">
@@ -133,50 +131,62 @@
           <div class="card__options"></div>
         </article>
 
-        <button class="board__add" href="#">Add card</button>
+        <button class="board__add">Add card</button>
       </section>
 
       <section class="board done">
         <h2>Done</h2>
         <p class="board__stats">total: <span class="board__stats--total-cards">0</span></p>
 
-        <button class="board__add" href="#">Add card</button>
+        <button class="board__add">Add card</button>
       </section>
     </div>
 
     <!-- Popup for auth -->
-    <form class="popup auth hidden">
-      <label for="login">Enter login</label>
-      <input required id="login" type="text" />
+    <div class="popup hidden">
+      <form class="auth">
+        <input type="radio" id="optionRegister" checked name="options" />
+        <label for="optionRegister">Register</label>
 
-      <label for="password">Enter password</label>
-      <input required id="password" type="password" />
+        <input type="radio" id="optionLogin" name="options" />
+        <label for="optionLogin">Login</label>
 
-      <label for="email">Enter email</label>
-      <input id="email" type="email" />
+        <label for="login">Enter login</label>
+        <input required id="login" type="text" />
 
-      <button class="button-register">Register</button>
-      <button class="button-login">Login</button>
-    </form>
+        <label for="email">Enter email</label>
+        <input id="email" type="email" />
+
+        <label for="password">Enter password</label>
+        <input required id="password" type="password" />
+
+        <button class="button-register">Register</button>
+        <button class="button-login">Login</button>
+      </form>
+      <div class="close"></div>
+    </div>
 
     <!-- Popup for adding card -->
-    <form class="popup add hidden">
-      <label for="card-title">Enter card title</label>
-      <input id="card-title" type="text" />
+    <div class="popup hidden">
+      <form class="add">
+        <label for="card-title">Enter card title</label>
+        <input id="card-title" type="text" />
 
-      <label for="card-description">Enter card text</label>
-      <textarea id="card-description"></textarea>
+        <label for="card-description">Enter card text</label>
+        <textarea id="card-description"></textarea>
 
-      <label for="card-category">Select card category</label>
-      <select id="card-category">
-        <option value="1">To Do</option>
-        <option value="2">In Progress</option>
-        <option value="3">Testing</option>
-        <option value="4">Done</option>
-      </select>
+        <label for="card-category">Select card category</label>
+        <select id="card-category">
+          <option value="1">To Do</option>
+          <option value="2">In Progress</option>
+          <option value="3">Testing</option>
+          <option value="4">Done</option>
+        </select>
 
-      <button class="button-add">Sumbit</button>
-    </form>
+        <button class="button-add">Submit</button>
+      </form>
+      <div class="close"></div>
+    </div>
 
     <!-- Popup for manipulating card -->
     <ul class="actions hidden">
