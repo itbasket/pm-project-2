@@ -1,5 +1,237 @@
-$body-color: grey;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@300;400&display=swap');
+
+@import '_variables';
+@import '_mixins';
+
+html {
+  background-color: $company-green;
+  padding: 1em;
+}
 
 body {
-    background-color: $body-color;
+  background-color: $company-light-yellow;
+  font-family: $main-font;
+  font-weight: 300;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+}
+
+a {
+  @include link;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: $heading-font;
+  color: $company-dark-gray;
+}
+
+.hidden {
+  display: none;
+}
+
+.selected {
+  opacity: 0.4;
+}
+
+.boards,
+.menu,
+.top-menu {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  padding: 1em;
+}
+
+.top-menu {
+  list-style-type: none;
+  justify-content: flex-end;
+  margin-top: 0;
+
+  & button {
+    @include link;
+    color: $company-dark-gray;
+    padding: 0;
+  }
+}
+
+.menu {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  & button {
+    @include button;
+  }
+}
+
+.board {
+  border: 1px dotted $company-light-gray;
+  padding: 1em;
+  position: relative;
+  flex: 1 0 1px;
+  height: 100%;
+  border-radius: $border-radius;
+
+  & > h2 {
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  & > h2:after {
+    content: '⭘';
+    margin-left: 0.5em;
+    top: 1em;
+    right: 1em;
+    border-radius: 50%;
+  }
+
+  &.to_do > h2:after {
+    color: $company-blue;
+  }
+
+  &.in_progress > h2:after {
+    color: $company-purple;
+  }
+
+  &.testing > h2:after {
+    color: $company-yellow;
+  }
+
+  &.done > h2:after {
+    color: $company-green;
+  }
+
+  &__stats {
+    margin: 0 20px 1em;
+  }
+
+  &__add {
+    @include link;
+    margin: 1em;
+  }
+}
+
+.card {
+  min-width: 150px;
+  padding: 1em;
+  margin-bottom: 1em;
+  position: relative;
+  background-color: $company-white;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+  color: $company-light-gray;
+  cursor: move;
+
+  &__title {
+    margin-right: 1em;
+  }
+
+  &__options {
+    @include options;
+  }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 0.8em;
+    font-weight: 400;
+    color: $company-light-gray;
+
+    & p {
+      margin: 0;
+    }
+
+    & span {
+      color: $company-dark-gray;
+    }
+  }
+}
+
+.popup {
+  @include popup;
+
+  input,
+  select,
+  textarea {
+    @include input;
+  }
+
+  button {
+    @include button;
+  }
+
+  .close {
+    @include close;
+  }
+}
+
+.actions {
+  position: absolute;
+  list-style: none;
+  z-index: 5;
+  width: 100px;
+  padding-left: 0;
+  box-sizing: border-box;
+  border: 1px dotted $company-dark-gray;
+  border-radius: $border-radius;
+  background-color: $company-white;
+  box-shadow: $shadow;
+
+  & li {
+    padding: 5px 0;
+    &:not(:last-of-type) {
+      border-bottom: 1px dotted $company-dark-gray;
+    }
+  }
+
+  & button {
+    @include link;
+    color: $company-dark-gray;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.auth {
+  label {
+    width: 100%;
+    display: block;
+  }
+
+  input[type='radio'] {
+    display: none;
+  }
+
+  input[type='radio'] + label {
+    cursor: pointer;
+    display: inline-block;
+    width: calc(50% - 2px);
+    box-sizing: border-box;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    text-align: center;
+    border: 1px dotted $company-light-gray;
+    background-color: $company-green;
+    border-radius: $border-radius;
+    color: $company-white;
+  }
+
+  input[type='radio']:not(:checked) + label {
+    background-color: white;
+    color: $company-dark-gray;
+  }
+
+  #optionRegister:checked ~ .button-login,
+  #optionLogin:checked ~ #email,
+  #optionLogin:checked ~ label[for='email'],
+  #optionLogin:checked ~ .button-register {
+    display: none;
+  }
 }
