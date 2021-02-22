@@ -1,9 +1,9 @@
 import AuthUI from './AuthUI';
 
-class ToDoApp {
+class App {
   static init() {
     AuthUI.render();
   }
 }
 
-export default ToDoApp;
+export default App;

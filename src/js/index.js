@@ -1,6 +1,6 @@
 import '../styles/styles.scss';
-import todoApp from './ToDoApp';
+import App from './App';
 
 document.addEventListener('DOMContentLoaded', () => {
-  todoApp.init();
+  App.init();
 });
