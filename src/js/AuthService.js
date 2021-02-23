@@ -2,7 +2,7 @@ import HttpService from './HttpService';
 
 export default class AuthService {
   static async login({ identifier, password }) {
-    HttpService.request({
+    return HttpService.request({
       method: 'post',
       url: '/auth/local',
       data: {
@@ -14,7 +14,7 @@ export default class AuthService {
   }
 
   static async register({ username, email, password }) {
-    HttpService.request({
+    return HttpService.request({
       method: 'post',
       url: '/auth/local/register',
       data: {
