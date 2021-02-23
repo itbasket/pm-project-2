@@ -1,7 +1,7 @@
 class EventEmitter {
   constructor() {
     this.events = {
-      loggedIn: [],
+
     };
   }
 
