@@ -157,6 +157,12 @@ h4 {
 .popup {
   @include popup;
 
+  &__status-message {
+    color: $company-orange;
+    margin-top: 1em;
+    font-size: 0.8em;
+  }
+
   input,
   select,
   textarea {
