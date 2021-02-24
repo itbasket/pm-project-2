@@ -19,7 +19,7 @@ export default class HttpService {
 
     return API(options)
       .catch((error) => {
-        console.log(error.toJSON());
+        throw error.response.data;
       });
   }
 }
