@@ -68,6 +68,17 @@ h4 {
   & button {
     @include button;
   }
+
+  & input {
+    @include input;
+    width: 200px;
+    margin-bottom: 0;
+    font-weight: bold;
+
+    &::placeholder {
+      font-weight: 300;
+    }
+  }
 }
 
 .board {
@@ -152,6 +163,16 @@ h4 {
       color: $company-dark-gray;
     }
   }
+
+  & [contenteditable] {
+    border: 1px dashed $company-green;
+    cursor: text;
+  }
+
+  .options__submit {
+    @include link;
+    margin-bottom: 1em;
+  }
 }
 
 .popup {
@@ -180,6 +201,8 @@ h4 {
 
 .actions {
   position: absolute;
+  right: 0;
+  top: 0;
   list-style: none;
   z-index: 5;
   width: 100px;
