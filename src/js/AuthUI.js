@@ -1,4 +1,5 @@
 import AuthService from './AuthService';
+import emitter from './EventEmitter';
 
 class AuthUI {
   constructor() {
@@ -21,19 +22,32 @@ class AuthUI {
   submitHandler(ev) {
     ev.preventDefault();
     const mode = this.authForm.querySelector('input[name=options]:checked').id;
+    let response;
 
     if (mode === 'optionLogin') {
-      AuthService.login({
+      response = AuthService.login({
         identifier: this.login.value,
         password: this.password.value,
       });
     } else {
-      AuthService.register({
+      response = AuthService.register({
         username: this.login.value,
         email: this.email.value,
         password: this.password.value,
       });
     }
+
+    response
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          localStorage.setItem('AUTH_TOKEN', res.data.jwt);
+          emitter.emit('loggedIn');
+        }
+      })
+      .catch((error) => {
+        document.querySelector('.popup__status-message').innerHTML = error.message[0].messages[0].message;
+      });
   }
 
   render() {
