@@ -37,12 +37,17 @@ class AuthUI {
       });
     }
 
-    response.then((res) => {
-      if (res.status === 200) {
-        localStorage.setItem('AUTH_TOKEN', res.data.jwt);
-        emitter.emit('loggedIn');
-      }
-    });
+    response
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          localStorage.setItem('AUTH_TOKEN', res.data.jwt);
+          emitter.emit('loggedIn');
+        }
+      })
+      .catch((error) => {
+        document.querySelector('.popup__status-message').innerHTML = error.message[0].messages[0].message;
+      });
   }
 
   render() {
