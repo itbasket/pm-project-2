@@ -14,7 +14,7 @@ export default class HttpService {
     };
 
     if (auth) {
-      options.headers.Authorization = `Bearer ${1}`;
+      options.headers.Authorization = `Bearer ${'User.token'}`;
     }
 
     return API(options)
