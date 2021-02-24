@@ -1,6 +1,7 @@
 import HttpService from './HttpService';
 
 const cardPath = '/cards';
+const statusesPath = '/statuses';
 
 export default class CardService {
   static async getCards() {
@@ -32,6 +33,13 @@ export default class CardService {
     return HttpService.request({
       url: `${cardPath}/${id}`,
       method: 'DELETE',
+      auth: true,
+    });
+  }
+
+  static async getStatuses() {
+    return HttpService.request({
+      url: statusesPath,
       auth: true,
     });
   }
