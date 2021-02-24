@@ -23,7 +23,7 @@ export default class CardService {
   static async updateCard(card) {
     return HttpService.request({
       url: `${cardPath}/${card.id}`,
-      method: 'POST',
+      method: 'PUT',
       data: card,
       auth: true,
     });
