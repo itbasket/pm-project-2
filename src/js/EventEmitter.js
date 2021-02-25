@@ -1,8 +1,6 @@
 class EventEmitter {
   constructor() {
-    this.events = {
-
-    };
+    this.events = {};
   }
 
   subscribe(eventName, listener) {

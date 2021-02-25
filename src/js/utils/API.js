@@ -1,6 +1,7 @@
 import axios from 'axios';
+import config from './config';
 
 export default axios.create({
-  baseURL: 'https://radiant-temple-07706.herokuapp.com/',
+  baseURL: config.baseURL,
   responseType: 'json',
 });
