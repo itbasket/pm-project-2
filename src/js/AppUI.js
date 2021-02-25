@@ -55,10 +55,16 @@ class AppUI {
   }
 
   getBoardsData() {
-    return CardService.getStatuses().then((response) => {
-      this.createBoards(response.data);
-      this.createCardPopup(response.data);
-    });
+    return CardService.getStatuses()
+      .then((response) => {
+        this.createBoards(response.data);
+        this.createCardPopup(response.data);
+      })
+      .catch((error) => {
+        if (error.error === 'Unauthorized') {
+          emitter.emit('badToken');
+        }
+      });
   }
 
   createBoards(boardsData) {
@@ -134,7 +140,20 @@ class AppUI {
       this.boardsContainer.innerHTML = '';
       this.userListItem.remove();
       CardPopup.nodeElement.remove();
+      Loader.remove();
       this.render();
+    });
+
+    emitter.subscribe('badToken', () => {
+      User.logout();
+      this.boardsContainer.innerHTML = '';
+      Loader.remove();
+      this.render();
+
+      const authPopup = document.querySelector('.popup');
+      authPopup.classList.remove('hidden');
+      const statusMessage = authPopup.querySelector('.popup__status-message');
+      statusMessage.innerHTML = 'Bad Authorisation token. Please, login again';
     });
 
     emitter.subscribe('cardsQuantityChanged', () => {
