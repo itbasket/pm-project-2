@@ -104,10 +104,17 @@ export default class Card {
     });
   }
 
-  optionsCreate() {
-    if (document.querySelector('.options')) {
-      document.querySelector('.options').remove();
+  optionsCreate(event) {
+    const { pageX, pageY } = event;
+
+    if (document.querySelector('.popup-wrapper')) {
+      document.querySelector('.popup-wrapper').remove();
     }
+
+    const wrapper = createElement('div', {
+      className: 'popup-wrapper',
+      onclick: () => wrapper.remove(),
+    });
 
     const options = createElement('ul', {
       className: 'options',
@@ -130,25 +137,21 @@ export default class Card {
               },
               'Delete',
             ),
-            createElement(
-              'button',
-              {
-                className: 'options__cancel',
-                onclick: this.optionsDelete.bind(this),
-              },
-              'Cancel',
-            ),
           ],
         }),
       ],
     });
 
+    options.style.left = `${pageX - 50}px`;
+    options.style.top = `${pageY}px`;
+
+    wrapper.append(options);
     this.options = options;
-    this.nodeElement.prepend(options);
+    document.body.prepend(wrapper);
   }
 
   optionsDelete() {
-    this.options.remove();
+    this.options.parentNode.remove();
   }
 
   optionsEditButtonHandler() {

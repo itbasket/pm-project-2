@@ -2,8 +2,9 @@ import { createElement } from './utils/helpers';
 
 export default class CardPopup {
   static create(boards) {
-    const nodeElement = createElement('div', {
-      className: 'popup hidden',
+    const wrapper = createElement('div', { className: 'popup-wrapper hidden' });
+    this.nodeElement = createElement('div', {
+      className: 'popup',
       children: [
         createElement('form', {
           className: 'add',
@@ -28,18 +29,27 @@ export default class CardPopup {
       ],
     });
 
-    this.nodeElement = nodeElement;
+    wrapper.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        this.hide();
+      }
+    });
+
+    wrapper.append(this.nodeElement);
+    document.body.append(wrapper);
   }
 
   static hide() {
-    this.nodeElement.classList.add('hidden');
+    this.nodeElement.parentNode.classList.add('hidden');
     this.title.value = '';
     this.description.value = '';
+    [...this.category.children].forEach((option) => {
+      option.removeAttribute('selected');
+    });
   }
 
   static show() {
-    this.nodeElement.classList.remove('hidden');
-    return CardPopup;
+    this.nodeElement.parentNode.classList.remove('hidden');
   }
 
   static changeStatus(message) {

@@ -4,6 +4,7 @@ import CardPopup from './CardPopup';
 import CardService from './CardService';
 import { createElement, debaunce } from './utils/helpers';
 import emitter from './EventEmitter';
+import Loader from './Loader';
 
 class AppUI {
   constructor() {
@@ -82,8 +83,6 @@ class AppUI {
   createCardPopup(data) {
     CardPopup.create(data);
     CardPopup.submit.addEventListener('click', this.addCard.bind(this));
-
-    document.body.append(CardPopup.nodeElement);
   }
 
   addCard(e) {
@@ -119,12 +118,14 @@ class AppUI {
     });
 
     emitter.subscribe('loggedIn', () => {
+      Loader.render();
       this.getBoardsData()
         .then(() => this.getCardsData())
         .then(() => {
           this.userListItem = createElement('li', {}, `Hello, ${User.login}`);
           this.topMenu.prepend(this.userListItem);
-          this.render();
+          Loader.remove();
+          this.nodeElement.classList.remove('hidden');
         });
     });
 
@@ -157,11 +158,7 @@ class AppUI {
   }
 
   render() {
-    if (User.token) {
-      this.nodeElement.classList.remove('hidden');
-    } else {
-      this.nodeElement.classList.add('hidden');
-    }
+    this.nodeElement.classList.add('hidden');
   }
 }
 

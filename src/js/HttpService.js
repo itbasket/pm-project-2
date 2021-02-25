@@ -1,6 +1,5 @@
 import API from './utils/API';
 import User from './User';
-import Loader from './Loader';
 
 export default class HttpService {
   static async request({
@@ -20,14 +19,8 @@ export default class HttpService {
       options.headers.Authorization = `Bearer ${User.token}`;
     }
 
-    Loader.render();
-
-    return API(options)
-      .catch((error) => {
-        throw error.response.data;
-      })
-      .finally(() => {
-        Loader.remove();
-      });
+    return API(options).catch((error) => {
+      throw error.response.data;
+    });
   }
 }

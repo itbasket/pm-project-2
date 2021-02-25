@@ -6,6 +6,7 @@
 html {
   background-color: $company-green;
   padding: 1em;
+  position: relative;
 }
 
 body {
@@ -48,16 +49,26 @@ h4 {
   padding: 1em;
 }
 
+#app {
+  min-height: calc(100vh - 2em);
+  padding: 0 1em;
+}
+
 .top-menu {
   list-style-type: none;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 0;
   font-weight: 400;
 
   & button {
     @include link;
+    text-decoration: underline;
     color: $company-dark-gray;
     padding: 0;
+
+    &:hover {
+      font-weight: bold;
+    }
   }
 }
 
@@ -274,4 +285,16 @@ h4 {
 
 .loader {
   @include loader;
+}
+
+.popup-wrapper {
+  width: 100vw;
+  max-width: 100%;
+  z-index: 2;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
