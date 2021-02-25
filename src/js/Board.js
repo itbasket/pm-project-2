@@ -1,52 +1,48 @@
 import { createElement } from './utils/helpers';
 import Card from './Card';
+import emitter from './EventEmitter';
 
 export default class Board {
   createNodeElement(data) {
     const { title, value } = data;
-    const heading = createElement('h2', {}, title);
 
-    const textNode = createElement('', {}, 'total ');
-    const cardsCounterElement = createElement(
-      'span',
-      {
-        className: 'board__stats--total-cards',
-      },
-      '0',
-    );
-    const stats = createElement('p', {
-      className: 'board__stats',
-      children: [textNode, cardsCounterElement],
-    });
-
-    const cardsContainer = createElement('div', { className: 'cards' });
-    const addCardButton = createElement(
-      'button',
-      {
-        className: 'board__add',
-        onclick: Board.addCardButtonHandler.bind(this, title),
-      },
-      'Add card',
-    );
-
-    const nodeElement = createElement('section', {
+    this.nodeElement = createElement('section', {
       className: `board ${value}`,
-      children: [heading, stats, cardsContainer, addCardButton],
+      children: [
+        createElement('h2', {}, title),
+        createElement('p', {
+          className: 'board__stats',
+          children: [
+            createElement('', {}, 'total '),
+            (this.cardsCounterElement = createElement(
+              'span',
+              {
+                className: 'board__stats--total-cards',
+              },
+              '0',
+            )),
+          ],
+        }),
+        (this.cardsContainer = createElement('div', { className: 'cards' })),
+        (this.addCardButton = createElement(
+          'button',
+          {
+            className: 'board__add',
+            onclick: Board.addCardButtonHandler.bind(this, title),
+          },
+          'Add card',
+        )),
+      ],
       ondragover: this.dragoverHandler.bind(this),
     });
-    nodeElement.setAttribute('data-value', value);
+    this.nodeElement.setAttribute('data-value', value);
 
-    this.nodeElement = nodeElement;
-    this.cardsCounterElement = cardsCounterElement;
-    this.cardsContainer = cardsContainer;
-    this.addCardButton = addCardButton;
-
-    return nodeElement;
+    return this.nodeElement;
   }
 
   addCard(cardData) {
-    const card = new Card();
-    card.render(cardData, this.cardsContainer);
+    const card = new Card(cardData);
+    card.render(this.cardsContainer);
 
     this.updateCardsCounter();
   }
@@ -56,13 +52,13 @@ export default class Board {
   }
 
   static addCardButtonHandler(title) {
+    emitter.emit('showCardPopup');
     const popup = document.querySelector('.popup .add').parentNode;
-    popup.classList.remove('hidden');
     const options = [...popup.querySelector('#card-category').children];
 
     options.forEach((option) => {
       if (option.textContent === title) {
-        option.setAttribute('selected', 'selected');
+        option.setAttribute('selected', true);
       }
     });
   }

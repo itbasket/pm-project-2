@@ -3,6 +3,12 @@ import { createElement, formatDate } from './utils/helpers';
 import emitter from './EventEmitter';
 
 export default class Card {
+  constructor(data) {
+    this.data = data;
+
+    this.nodeElement = this.createNodeElement(this.data);
+  }
+
   createNodeElement(data) {
     const nodeElement = createElement('article', {
       className: 'card',
@@ -37,27 +43,25 @@ export default class Card {
         }),
         createElement('div', {
           className: 'card__options',
-          onclick: this.createActions.bind(this),
+          onclick: this.optionsCreate.bind(this),
         }),
       ],
     });
 
-    nodeElement.setAttribute('card-id', data.id);
     nodeElement.addEventListener('dragstart', () => {
       nodeElement.classList.add('selected');
     });
 
     nodeElement.addEventListener('dragend', () => {
       nodeElement.classList.remove('selected');
-      emitter.emit('dragDrop');
-      this.changeCardCategory();
+      emitter.emit('cardsQuantityChanged');
+      this.updateCardCategory();
     });
 
-    this.nodeElement = nodeElement;
     return nodeElement;
   }
 
-  static editCardSumbitHandler(...props) {
+  editCardSumbitHandler(...props) {
     const [title, description, id] = props;
 
     const newTitle = title.textContent;
@@ -72,13 +76,90 @@ export default class Card {
       description: newDescription,
     };
 
-    CardService.updateCard(newData);
+    CardService.updateCard(newData)
+      .then((response) => {
+        this.nodeElement.querySelector('.card__date--updated').textContent = formatDate(
+          response.data.updated_at,
+        );
+      })
+      .catch((error) => {
+        title.textContent = this.oldContent.title;
+        description.textContent = this.oldContent.description;
+
+        const message = createElement('p', {}, `${error.message}`);
+        description.after(message);
+
+        setTimeout(() => message.remove(), 2000);
+      });
   }
 
-  editCardHandler() {
+  updateCardCategory() {
+    const { id } = this.data;
+    const status = this.nodeElement.parentNode.parentNode.getAttribute('data-value');
+
+    CardService.updateCard({ id, status }).then((response) => {
+      this.nodeElement.querySelector('.card__date--updated').textContent = formatDate(
+        response.data.updated_at,
+      );
+    });
+  }
+
+  optionsCreate() {
+    if (document.querySelector('.options')) {
+      document.querySelector('.options').remove();
+    }
+
+    const options = createElement('ul', {
+      className: 'options',
+      children: [
+        createElement('li', {
+          children: [
+            createElement(
+              'button',
+              {
+                className: 'options__edit',
+                onclick: this.optionsEditButtonHandler.bind(this),
+              },
+              'Edit',
+            ),
+            createElement(
+              'button',
+              {
+                className: 'options__delete',
+                onclick: this.optionsDeleteButtonHandler.bind(this),
+              },
+              'Delete',
+            ),
+            createElement(
+              'button',
+              {
+                className: 'options__cancel',
+                onclick: this.optionsDelete.bind(this),
+              },
+              'Cancel',
+            ),
+          ],
+        }),
+      ],
+    });
+
+    this.options = options;
+    this.nodeElement.prepend(options);
+  }
+
+  optionsDelete() {
+    this.options.remove();
+  }
+
+  optionsEditButtonHandler() {
     const title = this.nodeElement.querySelector('.card__title');
     const description = this.nodeElement.querySelector('.card__description');
-    const id = this.nodeElement.getAttribute('card-id');
+    const { id } = this.data;
+
+    this.oldContent = {
+      title: title.textContent,
+      description: description.textContent,
+    };
 
     title.contentEditable = true;
     description.contentEditable = true;
@@ -88,80 +169,30 @@ export default class Card {
       {
         className: 'options__submit',
         onclick: () => {
-          Card.editCardSumbitHandler(title, description, id);
+          this.editCardSumbitHandler(title, description, id);
           optionsSubmit.remove();
         },
       },
-      'Submit',
+      'Save changes',
     );
 
     description.after(optionsSubmit);
 
-    this.deleteActions();
+    this.optionsDelete();
   }
 
-  changeCardCategory() {
-    const id = this.nodeElement.getAttribute('card-id');
-    const status = this.nodeElement.parentNode.parentNode.getAttribute('data-value');
+  optionsDeleteButtonHandler() {
+    const { id } = this.data;
 
-    CardService.updateCard({ id, status });
-  }
-
-  deleteCardHandler() {
-    const id = this.nodeElement.getAttribute('card-id');
-    CardService.deleteCard(id).then(() => this.nodeElement.remove());
-
-    this.deleteActions();
-  }
-
-  createActions() {
-    if (document.querySelector('.actions')) {
-      document.querySelector('.actions').remove();
-    }
-
-    const actions = createElement('ul', {
-      className: 'actions',
-      children: [
-        createElement('li', {
-          children: [
-            createElement(
-              'button',
-              {
-                className: 'options__edit',
-                onclick: this.editCardHandler.bind(this),
-              },
-              'Edit',
-            ),
-            createElement(
-              'button',
-              {
-                className: 'options__delete',
-                onclick: this.deleteCardHandler.bind(this),
-              },
-              'Delete',
-            ),
-            createElement(
-              'button',
-              {
-                className: 'options__cancel',
-                onclick: this.deleteActions.bind(this),
-              },
-              'Cancel',
-            ),
-          ],
-        }),
-      ],
+    CardService.deleteCard(id).then(() => {
+      this.nodeElement.remove();
+      emitter.emit('cardsQuantityChanged');
     });
 
-    this.actions = actions;
-    this.nodeElement.prepend(actions);
+    this.optionsDelete();
   }
 
-  deleteActions() {
-    this.actions.remove();
-  }
-
-  render(data, parentNode) {
-    parentNode.prepend(this.createNodeElement(data));
+  render(parentNode) {
+    parentNode.prepend(this.nodeElement);
   }
 }

@@ -3,7 +3,6 @@ import Board from './Board';
 import CardPopup from './CardPopup';
 import CardService from './CardService';
 import { createElement, debaunce } from './utils/helpers';
-
 import emitter from './EventEmitter';
 
 class AppUI {
@@ -81,34 +80,42 @@ class AppUI {
   }
 
   createCardPopup(data) {
-    this.cardPopup = CardPopup.create(data);
-    this.cardPopupSubmit = this.cardPopup.querySelector('.button-add');
-    this.cardPopupSubmit.addEventListener('click', this.cardPopupSubmitHandler.bind(this));
+    CardPopup.create(data);
+    CardPopup.submit.addEventListener('click', this.addCard.bind(this));
 
-    document.body.append(this.cardPopup);
+    document.body.append(CardPopup.nodeElement);
   }
 
-  cardPopupSubmitHandler(e) {
+  addCard(e) {
     e.preventDefault();
 
-    const title = this.cardPopup.querySelector('#card-title').value;
-    const description = this.cardPopup.querySelector('#card-description').value;
-    const status = this.cardPopup.querySelector('#card-category').value;
+    const title = CardPopup.title.value.trim();
+    const description = CardPopup.description.value.trim();
+    const status = CardPopup.category.value;
 
-    CardService.createCard({ title, description, status }).then((response) => {
-      const board = response.data.status;
-      this.boards[board].addCard(response.data);
-      emitter.emit('hideCardPopup');
-    });
+    if (!title || !description) {
+      CardPopup.changeStatus('Please, fill all fields');
+      return;
+    }
+
+    CardService.createCard({ title, description, status })
+      .then((response) => {
+        const board = response.data.status;
+        this.boards[board].addCard(response.data);
+        emitter.emit('hideCardPopup');
+      })
+      .catch(() => {
+        CardPopup.changeStatus('Something went wrong!');
+      });
   }
 
   registerListeners() {
     emitter.subscribe('showCardPopup', () => {
-      this.cardPopup.classList.remove('hidden');
+      CardPopup.show();
     });
 
     emitter.subscribe('hideCardPopup', () => {
-      this.cardPopup.classList.add('hidden');
+      CardPopup.hide();
     });
 
     emitter.subscribe('loggedIn', () => {
@@ -125,10 +132,11 @@ class AppUI {
       User.logout();
       this.boardsContainer.innerHTML = '';
       this.userListItem.remove();
+      CardPopup.nodeElement.remove();
       this.render();
     });
 
-    emitter.subscribe('dragDrop', () => {
+    emitter.subscribe('cardsQuantityChanged', () => {
       Object.values(this.boards).forEach((board) => {
         board.updateCardsCounter();
       });

@@ -61,8 +61,8 @@ class AuthUI {
     response
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem('AUTH_TOKEN', res.data.jwt);
-          localStorage.setItem('USER_LOGIN', res.data.user.username);
+          User.token = res.data.jwt;
+          User.login = res.data.user.username;
           this.authPopup.classList.add('hidden');
           emitter.emit('loggedIn');
         }

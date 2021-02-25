@@ -26,6 +26,12 @@ export default class AuthPopup {
     });
     const statusMessage = createElement('div', { className: 'popup__status-message' });
 
+    [...form.querySelectorAll('input')].forEach((input) => {
+      input.addEventListener('input', () => {
+        statusMessage.innerHTML = '';
+      });
+    });
+
     return createElement('div', { className: 'popup', children: [form, statusMessage] });
   }
 }
