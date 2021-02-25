@@ -34,6 +34,7 @@ export default class Board {
       children: [heading, stats, cardsContainer, addCardButton],
       ondragover: this.dragoverHandler.bind(this),
     });
+    nodeElement.setAttribute('data-value', value);
 
     this.nodeElement = nodeElement;
     this.cardsCounterElement = cardsCounterElement;

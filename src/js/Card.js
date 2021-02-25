@@ -1,3 +1,4 @@
+import CardService from './CardService';
 import { createElement, formatDate } from './utils/helpers';
 import emitter from './EventEmitter';
 
@@ -49,13 +50,14 @@ export default class Card {
     nodeElement.addEventListener('dragend', () => {
       nodeElement.classList.remove('selected');
       emitter.emit('dragDrop');
+      this.changeCardCategory();
     });
 
     this.nodeElement = nodeElement;
     return nodeElement;
   }
 
-  editCardSumbitHandler(...props) {
+  static editCardSumbitHandler(...props) {
     const [title, description, id] = props;
 
     const newTitle = title.textContent;
@@ -70,7 +72,7 @@ export default class Card {
       description: newDescription,
     };
 
-    console.log(newData, this);
+    CardService.updateCard(newData);
   }
 
   editCardHandler() {
@@ -86,7 +88,7 @@ export default class Card {
       {
         className: 'options__submit',
         onclick: () => {
-          this.editCardSumbitHandler(title, description, id);
+          Card.editCardSumbitHandler(title, description, id);
           optionsSubmit.remove();
         },
       },
@@ -98,13 +100,17 @@ export default class Card {
     this.deleteActions();
   }
 
-  deleteCardHandler() {
-    const board = this.nodeElement.parentNode.parentNode;
-    const totalCardsNode = board.querySelector('.board__stats--total-cards');
-    const totalCards = +totalCardsNode.textContent - 1;
-    totalCardsNode.textContent = totalCards;
+  changeCardCategory() {
+    const id = this.nodeElement.getAttribute('card-id');
+    const status = this.nodeElement.parentNode.parentNode.getAttribute('data-value');
 
-    this.nodeElement.remove();
+    CardService.updateCard({ id, status });
+  }
+
+  deleteCardHandler() {
+    const id = this.nodeElement.getAttribute('card-id');
+    CardService.deleteCard(id).then(() => this.nodeElement.remove());
+
     this.deleteActions();
   }
 

@@ -1,10 +1,10 @@
-// import AuthUI from './AuthUI';
 import AppUI from './AppUI';
+import AuthUI from './AuthUI';
 
 class App {
   static init() {
-    // AuthUI.render();
     AppUI.render();
+    AuthUI.render();
   }
 }
 

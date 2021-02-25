@@ -1,4 +1,5 @@
 import API from './utils/API';
+import User from './User';
 
 export default class HttpService {
   static async request({
@@ -11,15 +12,15 @@ export default class HttpService {
       method,
       url,
       data: data ?? '',
+      headers: {},
     };
 
     if (auth) {
-      options.headers.Authorization = `Bearer ${'User.token'}`;
+      options.headers.Authorization = `Bearer ${User.token}`;
     }
 
-    return API(options)
-      .catch((error) => {
-        throw error.response.data;
-      });
+    return API(options).catch((error) => {
+      throw error.response.data;
+    });
   }
 }

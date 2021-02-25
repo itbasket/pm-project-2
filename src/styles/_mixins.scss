@@ -38,6 +38,11 @@
   &:active {
     transform: translateY(2px);
   }
+
+  &:disabled {
+    background-color: $company-light-gray;
+    cursor: not-allowed;
+  }
 }
 
 @mixin options {
