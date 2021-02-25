@@ -107,12 +107,12 @@ export default class Card {
   optionsCreate(event) {
     const { pageX, pageY } = event;
 
-    if (document.querySelector('.popup-wrapper')) {
-      document.querySelector('.popup-wrapper').remove();
+    if (document.querySelector('.popup-wrapper.options')) {
+      document.querySelector('.popup-wrapper.options').remove();
     }
 
     const wrapper = createElement('div', {
-      className: 'popup-wrapper',
+      className: 'popup-wrapper options',
       onclick: () => wrapper.remove(),
     });
 
