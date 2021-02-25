@@ -155,6 +155,7 @@ h4 {
   border-radius: $border-radius;
   box-shadow: $shadow;
   color: $company-light-gray;
+  word-wrap: break-word;
   cursor: move;
 
   &__title {
